@@ -12,7 +12,7 @@ connectMongoDb();
 app.use(bodyParser.json());
 
 app.use(cors({
-    origin: 'https://ubiquitous-mousse-e69a4f.netlify.app', 
+    origin: 'https://unrivaled-granita-71b7e2.netlify.app', 
     credentials: true
 }))
 app.use('/user',require('./Model/userController'));
