@@ -1,7 +1,7 @@
 {
   "name": "backend",
   "version": "1.0.0",
-  "description": "",
+  "description": "This is the backend for an e-commerce website focused on selling dresses. It handles product management, user authentication, shopping cart functionality, and payment processing via Razorpay. The backend is built with Node.js, Express.js, and uses MongoDB for data storage.",
   "main": "index.js",
   "scripts": {
     "start": "nodemon index.js",
@@ -22,5 +22,6 @@
     "mongoose": "^8.5.2",
     "nodemon": "^3.1.4",
     "razorpay": "^2.9.4"
-  }
+  },
+  "devDependencies": {}
 }

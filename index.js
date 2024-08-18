@@ -1,18 +1,18 @@
 const express = require('express');
 const cors = require('cors');
 const bodyParser = require('body-parser'); 
-const  { connectMongoDb } = require("./Database/db");
-const app = express();
-connectMongoDb();
-
-
 require('dotenv').config();
+const  { connectMongoDb } = require("./Database/db");
+
 const PORT = process.env.PORT
 const HOSTNAME = process.env.HOSTNAME
 
+const app = express();
+connectMongoDb();
 app.use(bodyParser.json());
+
 app.use(cors({
-    origin: 'https://unrivaled-granita-71b7e2.netlify.app', 
+    origin: 'https://ubiquitous-mousse-e69a4f.netlify.app', 
     credentials: true
 }))
 app.use('/user',require('./Model/userController'));
