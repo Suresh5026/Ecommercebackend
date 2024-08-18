@@ -19,6 +19,10 @@ app.use('/user',require('./Model/userController'));
 app.use('/product',require('./Model/productController'));
 app.use('/payment',require('./Model/paymentController'));
 
+app.get("/",(req,res)=>{
+    res.send("Server running success!!!")
+});
+
 
 app.listen(PORT,HOSTNAME,()=>{
     console.log(`Server is running PORT : ${PORT}`);
