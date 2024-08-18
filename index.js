@@ -12,7 +12,7 @@ const HOSTNAME = process.env.HOSTNAME
 
 app.use(bodyParser.json());
 app.use(cors({
-    origin: 'http://localhost:5173', 
+    origin: 'https://unrivaled-granita-71b7e2.netlify.app', 
     credentials: true
 }))
 app.use('/user',require('./Model/userController'));
