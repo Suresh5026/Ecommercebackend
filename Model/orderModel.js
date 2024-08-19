@@ -12,10 +12,11 @@ const orderSchema = new mongoose.Schema(
       ref: "users",
       required: true,
     },
-    productIds: {
-      type: [String], 
-    required: true,
-    },
+    productIds: [{
+      type: [mongoose.Schema.Types.ObjectId],
+      ref: "products",
+      required: true,
+    }],
     amount: {
       type: Number,
       required: true,
@@ -28,23 +29,18 @@ const orderSchema = new mongoose.Schema(
       type: String,
       default: "Ordered"
     },
-    notes: {
-      type: {
-        userId: String,
-        productIds: [String], 
-      },
-      required: true,
-    },
-    paymentId: { type: String, required: false },
-    paymentStatus: { type: String, required: false },
     created_at: {
       type: Date,
       default: Date.now,
+    },
+    notes: {
+      userId: String,
+    productIds: [String], 
     },
   },
   { timestamps: true }
 );
 
-const orderModel = mongoose.model("Order", orderSchema);
+const orderModel = mongoose.model("orders", orderSchema);
 
 module.exports = orderModel;

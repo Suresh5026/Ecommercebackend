@@ -12,7 +12,7 @@ connectMongoDb();
 app.use(bodyParser.json());
 
 app.use(cors({
-    origin: 'https://unrivaled-granita-71b7e2.netlify.app', 
+    origin: 'http://localhost:5173', 
     credentials: true
 }))
 app.use('/user',require('./Model/userController'));

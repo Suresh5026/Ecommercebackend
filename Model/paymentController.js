@@ -12,7 +12,7 @@ let instance = new Razorpay({
 
 router.post("/orders", async (req, res) => {
   try {
-    const { productIds, userId, amount } = req.body;
+    const { productIds, userId, amount } = req.body; 
 
     if (!userId || !productIds || productIds.length === 0) {
       return res
@@ -24,63 +24,58 @@ router.post("/orders", async (req, res) => {
       amount: amount * 100,
       currency: "INR",
       notes: {
-        userId,
-        productIds,
+        userId: userId,
+        productIds: productIds, 
       },
     };
-    console.log('Creating Razorpay order with options:', options);
+    console.log("Creating Razorpay order with options:", options);
 
     instance.orders.create(options, async (err, order) => {
       if (err) {
-        console.error('Error creating Razorpay order:', err);
+        console.error("Error creating Razorpay order:", err);
         return res.status(500).json({ message: "Server Error", error: err });
       }
-      try{
-        const newOrder = new orderModel({
-          orderId: order.id,
-          userId,
-          amount: order.amount/100,
-          currency: order.currency,
-          notes: order.notes,
-        });
-        await newOrder.save();
-        return res.status(200).json({
-          data: order,
-          message: "Order Created Successfully",
-        });
-      }catch (dbError) {
-        console.error('Error saving order to database:', dbError);
-        return res.status(500).json({ message: 'Database Error', error: dbError });
-      }
+      const newOrder = new orderModel({
+        orderId: order.id,
+        userId: userId,
+        productIds: productIds, 
+        amount: order.amount/100,
+        currency: order.currency,
+        notes: order.notes,
+      });
+      await newOrder.save();
+      return res.status(200).json({
+        data: order,
+        message: "Order Created Successfully",
+      });
     });
   } catch (error) {
-    console.error('Error processing order request:', error);
-    return res.status(500).json({ message: 'Server Error', error: error.message });
+    console.error("Error processing order request:", error);
+    return res
+      .status(500)
+      .json({ message: "Server Error", error: error.message });
   }
 });
 
 router.post("/verify", async (req, res) => {
-  console.log(req.body);
-
   const body =
     req.body.response.razorpay_order_id +
     "|" +
     req.body.response.razorpay_payment_id;
-  const userId = req.body.userId;
 
   const expectedSignature = crypto
     .createHmac("sha256", process.env.KEY_SECRET)
     .update(body.toString())
     .digest("hex");
 
-    if (expectedSignature === req.body.response.razorpay_signature) {
-      res.json({ success: true, message: "Payment verification successful" });
-    } else {
-      console.log('Invalid signature.');
-      res.status(400).json({ message: "Invalid signature" });
-    }
-
+  if (expectedSignature === req.body.response.razorpay_signature) {
+    res.json({ success: true, message: "Payment verification successful" });
+  } else {
+    console.log("Invalid signature.");
+    res.status(400).json({ message: "Invalid signature" });
+  }
 });
+
 
 router.get("/orders/:id", async (req, res) => {
   try {
